@@ -13,8 +13,8 @@ public interface BoardRepository {
 	
 	
 	//select
-	public List<Board> getBoardByMemberName(String memberName);
-	public List<Board> getBoardByTitle(String title);
+	public List<Board> getBoardByMemberName(List<String> parameterList);
+	public List<Board> getBoardByTitle(List<String> username);
 	
 	
 }

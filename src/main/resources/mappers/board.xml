@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.web.KJY.repository.BoardRepository">
+  	
+  	<resultMap type="com.web.KJY.domain.entity.Member" id="member">
+  		<result column="member_id" property="member_id"/> 
+  		<result column="username" property="username"/> 
+  		<result column="password" property="password"/> 
+  	</resultMap>
+  	
+  	<resultMap type="com.web.KJY.domain.entity.Board" id="board">
+  		<result column="board_id" property="board_id"/>
+  		<result column="title" property="title"/>
+  		<result column="content" property="content"/>
+  		<result column="member_id" property="member_id"/>
+		<collection property="member" resultMap="member"></collection>
+  	</resultMap>
+  
+  
+  
+  	<insert id="registeBoard" parameterType="Board">
+  		INSERT INTO board_mst
+  		VALUES (0, #{title}, #{content}, #{member_id})
+  	</insert>
+  	
+  	<select id="getBoardByMemberName" parameterType="list" resultMap="board">
+  		SELECT
+  			bm.board_id,
+  			bm.title,
+  			bm.content,
+  			mm.username
+  		FROM
+  			board_mst bm
+  			LEFT OUTER JOIN member_mst mm ON(mm.member_id = bm.member_id)
+  		WHERE
+  		<foreach collection="list" item="username">
+  			 1 = 1
+  			 and mm.username like concat('%', #{username}, '%')
+  		</foreach>
+  	</select>
+  		
+  	
+  </mapper>
